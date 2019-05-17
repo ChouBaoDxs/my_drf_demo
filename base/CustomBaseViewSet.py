@@ -26,7 +26,7 @@ class CustomBaseViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return CustomJsonResponse(data=serializer.data, msg="success", code=201, status=status.HTTP_201_CREATED, headers=headers)
+        return CustomJsonResponse(data=serializer.data, msg="success", code=0, status=status.HTTP_201_CREATED, headers=headers)
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -34,15 +34,15 @@ class CustomBaseViewSet(viewsets.ModelViewSet):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             # return self.get_paginated_response(serializer.data)
-            return CustomJsonResponse(data=self.get_paginated_response(serializer.data).data, code=200, msg="success", status=status.HTTP_200_OK)
+            return CustomJsonResponse(data=self.get_paginated_response(serializer.data).data, code=0, msg="success", status=status.HTTP_200_OK)
 
         serializer = self.get_serializer(queryset, many=True)
-        return CustomJsonResponse(data=serializer.data, code=200, msg="success", status=status.HTTP_200_OK)
+        return CustomJsonResponse(data=serializer.data, code=0, msg="success", status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return CustomJsonResponse(data=serializer.data, code=200, msg="success", status=status.HTTP_200_OK)
+        return CustomJsonResponse(data=serializer.data, code=0, msg="success", status=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
@@ -56,9 +56,9 @@ class CustomBaseViewSet(viewsets.ModelViewSet):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
-        return CustomJsonResponse(data=serializer.data, msg="success", code=200, status=status.HTTP_200_OK)
+        return CustomJsonResponse(data=serializer.data, msg="success", code=0, status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return CustomJsonResponse(data=[], code=204, msg="delete resource success", status=status.HTTP_204_NO_CONTENT)
+        return CustomJsonResponse(data=[], code=0, msg="delete resource success", status=status.HTTP_204_NO_CONTENT)

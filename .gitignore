@@ -173,3 +173,5 @@ node_modules
 package-lock.json
 
 .envrc
+
+logs/

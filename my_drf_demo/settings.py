@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
+    'drf_yasg',
     'django_filters',
-    'rest_framework_swagger',
 
     'user'
 ]
@@ -130,7 +131,7 @@ REST_FRAMEWORK = {
         # 'base.CustomAuthentication.CustomTokenAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
         # 'base.CustomPermissionCheck.CustomPermissionCheck'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -177,12 +178,20 @@ REST_FRAMEWORK = {
     #     'rest_framework.parsers.FormParser'
     # 'rest_framework.parsers.MultiPartParser'
     # ]
+
+    # 渲染器
+    'DEFAULT_RENDERER_CLASSES': (
+        # 'rest_framework.renderers.JSONRenderer',  # 默认的是这个
+        'my_drf_demo.renders.CodeMsgJsonRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 }
 
-
 # 日志的配置信息
-if not DEBUG:
+# if not DEBUG:
+if DEBUG:
     import datetime
+
     LOG_DIR = os.path.join(BASE_DIR, 'logs')
     LOGGING = {
         'version': 1,
@@ -218,9 +227,11 @@ if not DEBUG:
                 'handlers': ['default', 'console'],
                 'level': 'INFO',
                 'propagate': False
-            }
+            },
+            'django': {
+                'handlers': ['default', 'console'],
+                'level': 'INFO',
+                'propagate': False,
+            },
         },
     }
-
-
-
