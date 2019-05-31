@@ -44,5 +44,5 @@ urlpatterns = [
     # url(r'docs/', include_docs_urls(title='接口文档1')),
     # url(r'docs2/', get_schema_view(title='接口文档2', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])),
     url(r'docs3/', drf_get_schema_view(title=u'接口文档3')),
-    url(r'^api/user/', include('user.urls', namespace='user'), name='user'),
+    url(r'^api/user/', include('user.urls', namespace='api_user'), name='user'),
 ]

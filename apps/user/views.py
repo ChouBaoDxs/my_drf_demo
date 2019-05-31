@@ -15,18 +15,17 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
-
-from .models import User
-from .serializers import UserSerializer
-from .paginationa import CtPageNumberPagination
-from base.CustomBaseViewSet import CustomBaseViewSet
-
 import coreapi
 from rest_framework.schemas import AutoSchema
 
+from .models import *
+from .serializers import *
+from .paginationa import CtPageNumberPagination
+from base.CustomBaseViewSet import CustomBaseViewSet
+
 
 # 自定义额外的参数
-class MallViewSchema(AutoSchema):   # drf自己的schema定制
+class MallViewSchema(AutoSchema):  # drf自己的schema定制
     def get_manual_fields(self, path, method):
         extra_fields = []
         if method == 'GET':
@@ -64,7 +63,7 @@ class UserViewSet(viewsets.ModelViewSet):
     # authentication_classes = [JSONWebTokenAuthentication, SessionAuthentication]  # 配置认证类
     # queryset = User.objects.all() # 重写get_queryset()方法代替
     serializer_class = UserSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]  # DjangoFilterBackend代表精确（查找）过滤
     filter_fields = ['id', 'username']
     # filter_class = UserFilter # 可以自定义过滤类
     lookup_field = 'id'
@@ -91,8 +90,22 @@ class UserViewSet(viewsets.ModelViewSet):
     test_param = openapi.Parameter('test', openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_BOOLEAN)
     user_response = openapi.Response('response description', UserSerializer)
 
-    @swagger_auto_schema(method='get', manual_parameters=[test_param], responses={200: user_response}) # drf_yasg的schema配置
+    @swagger_auto_schema(method='get', manual_parameters=[test_param], responses={200: user_response})  # drf_yasg的schema配置
     @action(detail=True, methods=['GET'], url_path='custom_path')
     def custom_path(self, request, *args, **kwargs):
         print(args, kwargs)
         return Response({'msg': 'ok'})
+
+
+class StudentViewSet(viewsets.ModelViewSet):
+    serializer_class = StudentSerializer
+    # queryset = Student.objects.all()
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['id', 'gender', 'age', 'learn_time']
+    ordering_fields = ['id', 'age', 'learn_time']
+
+    def get_queryset(self):
+        q = Student.objects.all()
+        learn_time_minute = self.request.GET.get('learn_time_minute')
+        # print(learn_time_minute)
+        return q

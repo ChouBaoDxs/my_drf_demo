@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 from rest_framework import viewsets, status
 
+
 class DRFExtend(object):
     class CodeMsgResponse(Response):
 
@@ -32,7 +33,7 @@ class DRFExtend(object):
     class CodeMsgResponseModelViewSet(viewsets.ModelViewSet):
         def dispatch(self, request, *args, **kwargs):
             data = super().dispatch(request, *args, **kwargs)
-            print('CodeMsgResponseModelViewSet：',data)
+            print('CodeMsgResponseModelViewSet：', data)
             return data
 
         def create(self, request, *args, **kwargs):

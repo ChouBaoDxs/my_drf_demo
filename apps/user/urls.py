@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from .django_views import TestFBV
 
-from .views import UserViewSet
+from .views import UserViewSet, StudentViewSet
 
 app_name = "user"
 
@@ -17,7 +17,8 @@ app_name = "user"
 # ]
 
 user_router = DefaultRouter()
-user_router.register(r'', UserViewSet, base_name='user')
+user_router.register(r'^student', StudentViewSet, base_name='student')
+user_router.register(r'^normal', UserViewSet, base_name='user')
 
 urlpatterns = [
     url(r'django/testFBV', TestFBV),
