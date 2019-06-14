@@ -43,8 +43,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
+    'xadmin',
+    'crispy_forms',
 
-    'user'
+    'user',
+    'school'
 ]
 
 MIDDLEWARE = [
@@ -109,7 +112,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
 TIME_ZONE = 'UTC'
 
@@ -135,7 +139,7 @@ REST_FRAMEWORK = {
         # 'base.CustomPermissionCheck.CustomPermissionCheck'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 2,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ],
     'DEFAULT_THROTTLE_CLASSES': [  # 访问频率限制配置
         # 'rest_framework.throttling.AnonRateThrottle',  # 匿名用户节流,通过IP地址判断

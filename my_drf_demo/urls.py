@@ -22,6 +22,10 @@ from rest_framework.schemas import get_schema_view as drf_get_schema_view
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+import xadmin
+from rest_framework_extensions.routers import ExtendedSimpleRouter
+
+from school.views import StudentViewSet, HobbyViewSet
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -36,6 +40,16 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+# drf自带的Router只支持1级(https://www.django-rest-framework.org/api-guide/routers/)
+# 如果要多级路由，需要借助drf-extensions
+router = ExtendedSimpleRouter()
+nested_item = router.register(r'api/v1/student', StudentViewSet, base_name='robot')
+
+nested_item.register(r'hobby',
+                     HobbyViewSet,
+                     basename='student-hobby',
+                     parents_query_lookups=['student_hobby'])
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
@@ -45,4 +59,9 @@ urlpatterns = [
     # url(r'docs2/', get_schema_view(title='接口文档2', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])),
     url(r'docs3/', drf_get_schema_view(title=u'接口文档3')),
     url(r'^api/user/', include('user.urls', namespace='api_user'), name='user'),
+
+    # xadmin
+    url(r'^xadmin/', xadmin.site.urls),
+
+    path('', include(router.urls)),
 ]
