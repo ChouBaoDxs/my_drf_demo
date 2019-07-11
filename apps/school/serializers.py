@@ -4,12 +4,6 @@ from rest_framework.validators import UniqueTogetherValidator
 from .models import *
 
 
-class HobbySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Hobby
-        fields = ['id', 'name']
-
-
 class StudentSerializer(serializers.ModelSerializer):  # ModelSerializer继承自Serializer，实现了简单的create和update方法
 
     class Meta:
@@ -59,3 +53,15 @@ class StudentUpdateSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['id', 'name', 'age', 'gender', 'created_at', 'updated_at', 'is_delete']
         read_only_fields = ['age']
+
+
+class HobbySerializer(serializers.ModelSerializer):
+    # student = StudentSerializer(read_only=True)
+    student = serializers.SerializerMethodField()
+
+    def get_student(self, instance):
+        return StudentSerializer(instance=instance.student).data
+
+    class Meta:
+        model = Hobby
+        fields = ['id', 'name', 'student']
