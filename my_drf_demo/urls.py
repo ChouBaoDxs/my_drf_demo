@@ -43,7 +43,7 @@ schema_view = get_schema_view(
 # drf自带的Router只支持1级(https://www.django-rest-framework.org/api-guide/routers/)
 # 如果要多级路由，需要借助drf-extensions
 router = ExtendedSimpleRouter(trailing_slash=False)  # 不强制在url结尾加上/
-nested_item = router.register(r'api/v1/student', StudentViewSet, base_name='robot')
+nested_item = router.register(r'api/v1/student', StudentViewSet, base_name='student')
 
 nested_item.register(r'hobby',
                      HobbyViewSet,

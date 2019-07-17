@@ -108,6 +108,7 @@ class StudentSerializer(serializers.ModelSerializer):   # ModelSerializer继承�
         #     queryset=Student.objects.all(),
         #     fields=['name', 'class']
         # )
+        ref_name = 'user.serializers.StudentSerializer'
 
     # 自定义复杂逻辑字段
     learn_time_minute = serializers.SerializerMethodField()

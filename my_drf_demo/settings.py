@@ -128,6 +128,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+HOST = os.environ.get('HOST', 'http://127.0.0.1:7000/')
+
 REST_FRAMEWORK = {
     'UNAUTHENTICATED_USER': None,
     'UNAUTHENTICATED_TOKEN': None,

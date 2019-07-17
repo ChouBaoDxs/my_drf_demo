@@ -23,11 +23,13 @@ class CodeMsgJsonRenderer(renderers.JSONRenderer):
             separators = INDENT_SEPARATORS
 
         data = {'code': 0, 'msg': 'success', 'data': data}
+        print(data)
         ret = json.dumps(
             data, cls=self.encoder_class,
             indent=indent, ensure_ascii=self.ensure_ascii,
             allow_nan=not self.strict, separators=separators
         )
+        print(ret)
 
         if isinstance(ret, six.text_type):
             ret = ret.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
